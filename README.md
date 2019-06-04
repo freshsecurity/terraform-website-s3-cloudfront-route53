@@ -12,7 +12,7 @@ The scripts also take care of:
 * Redirect HTTP to HTTPS
 
 These scripts suite my needs, but all evolution in the form of pull requests are welcome! To make
-this process fluent, create [an issue](https://github.com/ringods/terraform-website-s3-cloudfront-route53/issues)
+this process fluent, create [an issue](https://github.com/freshsecurity/terraform-website-s3-cloudfront-route53/issues)
 first describing what you want to contribute, then fork and create a branch with a clear name.
 Submit your work as a pull request.
 
@@ -62,7 +62,7 @@ the appropriate SSL certificates is as easy as using the `site-main` module and 
 appropriate variables:
 
     module "site-main" {
-       source = "github.com/ringods/terraform-website-s3-cloudfront-route53//site-main"
+       source = "github.com/freshsecurity/terraform-website-s3-cloudfront-route53//site-main"
 
        region = "eu-west-1"
        domain = "my.domain.com"
@@ -126,7 +126,7 @@ See the [Terraform Modules documentation](https://www.terraform.io/docs/modules/
 ## Setting up the redirect site
 
     module "site-redirect" {
-       source = "github.com/ringods/terraform-website-s3-cloudfront-route53//site-redirect"
+       source = "github.com/freshsecurity/terraform-website-s3-cloudfront-route53//site-redirect"
 
        region = "eu-west-1"
        domain = "my.domain.com"
@@ -160,7 +160,7 @@ Whether it is a main site or a redirect site, a CNAME DNS record is needed for y
 non-root domain.
 
     module "dns-cname" {
-       source = "github.com/ringods/terraform-website-s3-cloudfront-route53//r53-cname"
+       source = "github.com/freshsecurity/terraform-website-s3-cloudfront-route53//r53-cname"
 
        domain = "my.domain.com"
        target = "${module.site-main.website_cdn_hostname}"
@@ -181,7 +181,7 @@ Whether it is a main site or a redirect site, an ALIAS DNS record is needed for 
 root domain.
 
     module "dns-alias" {
-       source = "github.com/ringods/terraform-website-s3-cloudfront-route53//r53-alias"
+       source = "github.com/freshsecurity/terraform-website-s3-cloudfront-route53//r53-alias"
 
        domain = "domain.com"
        target = "${module.site-main.website_cdn_hostname}"
