@@ -3,7 +3,7 @@ variable region {
 }
 
 variable project {
-  default = "noproject"
+  default = "Fresh Security"
 }
 variable environment {
   default = "default"
@@ -23,7 +23,7 @@ variable "tags" {
 
 variable "price_class" {
   description = "CloudFront price class"
-  default     = "PriceClass_200"
+  default     = "PriceClass_100"
 }
 
 variable "default_root_object" {

@@ -1,5 +1,7 @@
 # Terraform setup for S3 static site with CloudFront, Certificate Manager and Route53
 
+**TODO: Update docs to reflect separation of *cloudfront-main* Terraform from *site-main* config**
+
 This Git repository contains the required [Terraform](https://www.terraform.io/)
 scripts to setup a static website, hosted out of an S3 bucket.
 The site is fronted by a CloudFront distribution, uses AWS Certificate Manager for HTTPS and allows
@@ -22,7 +24,8 @@ This repository is split in 4 parts, each of which can be used as a separate mod
 The split is done because of the lack of conditional logic in Terraform 0.6.x. I leave the composition
 of the required setup to you, the user.
 
-* *site-main*: setup of the main S3 bucket with a CloudFront distribution
+* *site-main*: setup of the main S3 bucket
+* *cloudfront-main*: add a CloudFront distribution to the _site-main_ S3 bucket
 * *site-redirect*: setup of the redirect S3 bucket with a CloudFront distribution
 * *r53-cname*: configuration of a Route53 CNAME record pointing to a CloudFront distribution
 * *r53-alias*: configuration of a Route53 ALIAS record pointing to a CloudFront distribution. Required

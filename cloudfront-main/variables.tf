@@ -1,5 +1,5 @@
 variable region {
-  default = "eu-west-1"
+  default = "us-east-1"
 }
 
 variable project {
@@ -17,6 +17,7 @@ variable bucket_name {
 
 variable duplicate-content-penalty-secret {}
 variable deployer {}
+variable acm-certificate-arn {}
 
 variable routing_rules {
   default = ""
@@ -40,3 +41,17 @@ variable "trusted_signers" {
   type = "list"
   default = []
 }
+
+variable "forward-query-string" {
+  description = "Forward the query string to the origin"
+  default     = false
+}
+
+variable "price_class" {
+  description = "CloudFront price class"
+  default     = "PriceClass_100"
+}
+
+variable "website_bucket_id" {}
+variable "website_bucket_arn" {}
+variable "website_bucket_website_endpoint" {}
