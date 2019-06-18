@@ -28,10 +28,10 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     domain_name = "${var.website_bucket_website_endpoint}"
 
     custom_origin_config {
-      origin_protocol_policy = "match-viewer"
+      origin_protocol_policy = "http-only"
       http_port              = "80"
       https_port             = "443"
-      origin_ssl_protocols   = ["TLSv1.1"]
+      origin_ssl_protocols   = ["TLSv1"]
     }
 
     custom_header {
