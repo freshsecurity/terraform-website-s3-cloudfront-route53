@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
   price_class  = "${var.price_class}"
   http_version = "http2"
 
-  "origin" {
+  origin {
     origin_id   = "origin-bucket-${var.website_bucket_id}"
     domain_name = "${var.website_bucket_website_endpoint}"
 
