@@ -49,7 +49,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     response_page_path    = "${var.not-found-response-path}"
   }
 
-  "default_cache_behavior" {
+  default_cache_behavior {
     allowed_methods = ["GET", "HEAD", "DELETE", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods  = ["GET", "HEAD"]
 
@@ -73,13 +73,13 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     compress               = true
   }
 
-  "restrictions" {
+  restrictions {
     "geo_restriction" {
       restriction_type = "none"
     }
   }
 
-  "viewer_certificate" {
+  viewer_certificate {
     acm_certificate_arn      = "${var.acm-certificate-arn}"
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1"
