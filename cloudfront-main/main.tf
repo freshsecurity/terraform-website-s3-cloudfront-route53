@@ -53,7 +53,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     allowed_methods = ["GET", "HEAD", "DELETE", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods  = ["GET", "HEAD"]
 
-    "forwarded_values" {
+    forwarded_values {
       query_string = "${var.forward-query-string}"
 
       cookies {
@@ -74,7 +74,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
   }
 
   restrictions {
-    "geo_restriction" {
+    geo_restriction {
       restriction_type = "none"
     }
   }
