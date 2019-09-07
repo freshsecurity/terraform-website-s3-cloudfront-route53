@@ -14,18 +14,17 @@
 ##    certificates must be requested in region us-east-1
 ################################################################################################################
 
-
 ################################################################################################################
 ## Create a Cloudfront distribution for the static website
 ################################################################################################################
 resource "aws_cloudfront_distribution" "website_cdn" {
   enabled      = true
-  price_class  = "${var.price_class}"
+  price_class  = var.price_class
   http_version = "http2"
 
   origin {
     origin_id   = "origin-bucket-${var.website_bucket_id}"
-    domain_name = "${var.website_bucket_website_endpoint}"
+    domain_name = var.website_bucket_website_endpoint
 
     custom_origin_config {
       origin_protocol_policy = "http-only"
@@ -36,17 +35,17 @@ resource "aws_cloudfront_distribution" "website_cdn" {
 
     custom_header {
       name  = "User-Agent"
-      value = "${var.duplicate-content-penalty-secret}"
+      value = var.duplicate-content-penalty-secret
     }
   }
 
-  default_root_object = "${var.default-root-object}"
+  default_root_object = var.default-root-object
 
   custom_error_response {
     error_code            = "404"
     error_caching_min_ttl = "360"
     response_code         = "200"
-    response_page_path    = "${var.not-found-response-path}"
+    response_page_path    = var.not-found-response-path
   }
 
   default_cache_behavior {
@@ -54,18 +53,18 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     cached_methods  = ["GET", "HEAD"]
 
     forwarded_values {
-      query_string = "${var.forward-query-string}"
+      query_string = var.forward-query-string
 
       cookies {
         forward = "none"
       }
     }
 
-    trusted_signers = ["${var.trusted_signers}"]
+    trusted_signers = var.trusted_signers
 
     min_ttl          = "0"
-    default_ttl      = "60"                                              //3600
-    max_ttl          = "90"                                             //86400
+    default_ttl      = "60" //3600
+    max_ttl          = "90" //86400
     target_origin_id = "origin-bucket-${var.website_bucket_id}"
 
     // This redirects any HTTP request to HTTPS. Security first!
@@ -80,12 +79,20 @@ resource "aws_cloudfront_distribution" "website_cdn" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${var.acm-certificate-arn}"
+    acm_certificate_arn      = var.acm-certificate-arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1"
   }
 
-  aliases = ["${var.domain}"]
+  aliases = [var.domain]
 
-  tags = "${merge("${var.tags}",map("Name", "${var.project}-${var.environment}-${var.domain}", "Environment", "${var.environment}", "Project", "${var.project}"))}"
+  tags = merge(
+    var.tags,
+    {
+      "Name"        = "${var.project}-${var.environment}-${var.domain}"
+      "Environment" = var.environment
+      "Project"     = var.project
+    },
+  )
 }
+
