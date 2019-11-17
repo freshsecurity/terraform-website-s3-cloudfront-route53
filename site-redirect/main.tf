@@ -23,13 +23,15 @@ data "template_file" "bucket_policy" {
   template = file("${path.module}/website_redirect_bucket_policy.json")
 
   vars = {
-    bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
+    // bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
+    bucket = var.domain
     secret = var.duplicate-content-penalty-secret
   }
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
+  // bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
+  bucket = var.domain
   policy = data.template_file.bucket_policy.rendered
 
   website {
@@ -58,19 +60,22 @@ data "template_file" "deployer_role_policy_file" {
   template = file("${path.module}/deployer_role_policy.json")
 
   vars = {
-    bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
+    // bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
+    bucket = var.domain
   }
 }
 
 resource "aws_iam_policy" "site_deployer_policy" {
-  name        = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}.deployer"
+  // name        = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}.deployer"
+  name        = "${var.domain}.deployer"
   path        = "/"
   description = "Policy allowing to publish a new version of the website to the S3 bucket"
   policy      = data.template_file.deployer_role_policy_file.rendered
 }
 
 resource "aws_iam_policy_attachment" "staging-site-deployer-attach-user-policy" {
-  name       = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}-deployer-policy-attachment"
+  // name       = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}-deployer-policy-attachment"
+  name       = "${var.domain}-deployer-policy-attachment"
   users      = [var.deployer]
   policy_arn = aws_iam_policy.site_deployer_policy.arn
 }
@@ -106,7 +111,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     error_code            = "404"
     error_caching_min_ttl = "360"
     response_code         = "200"
-    response_page_path    = "/404.html"
+    response_page_path    = "/index.html"
   }
 
   default_cache_behavior {
@@ -154,4 +159,3 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     },
   )
 }
-
