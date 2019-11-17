@@ -22,14 +22,12 @@
 data "template_file" "bucket_policy" {
   template = file("${path.module}/website_redirect_bucket_policy.json")
 
-  // bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
   vars = {
     bucket = var.domain
     secret = var.duplicate-content-penalty-secret
   }
 }
 
-// bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
 resource "aws_s3_bucket" "website_bucket" {
   bucket = var.domain
   policy = data.template_file.bucket_policy.rendered
@@ -59,13 +57,11 @@ resource "aws_s3_bucket" "website_bucket" {
 data "template_file" "deployer_role_policy_file" {
   template = file("${path.module}/deployer_role_policy.json")
 
-  // bucket = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}"
   vars = {
     bucket = var.domain
   }
 }
 
-  // name        = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}.deployer"
 resource "aws_iam_policy" "site_deployer_policy" {
   name        = "${var.domain}.deployer"
   path        = "/"
@@ -73,7 +69,6 @@ resource "aws_iam_policy" "site_deployer_policy" {
   policy      = data.template_file.deployer_role_policy_file.rendered
 }
 
-  // name       = "site.${replace(replace(var.domain, ".", "-"), "*", "star")}-deployer-policy-attachment"
 resource "aws_iam_policy_attachment" "staging-site-deployer-attach-user-policy" {
   name       = "${var.domain}-deployer-policy-attachment"
   users      = [var.deployer]
