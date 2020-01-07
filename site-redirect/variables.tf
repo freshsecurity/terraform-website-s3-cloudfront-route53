@@ -43,5 +43,5 @@ variable "price_class" {
 
 variable "default_root_object" {
   description = "CloudFront default root object"
-  default     = "index.html"
+  default     = "default_root_object_index.html"
 }
