@@ -34,6 +34,7 @@ resource "aws_s3_bucket" "website_bucket" {
 
   website {
     redirect_all_requests_to = "${var.target}"
+    routing_rules = "${var.routing_rules}"
   }
 
   //  logging {

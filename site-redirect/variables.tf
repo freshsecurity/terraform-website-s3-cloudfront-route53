@@ -16,6 +16,9 @@ variable "domain" {
 variable "target" {
 }
 
+variable "routing_rules" {
+}
+
 variable "duplicate-content-penalty-secret" {
 }
 
@@ -40,4 +43,3 @@ variable "default_root_object" {
   description = "CloudFront default root object"
   default     = "index.html"
 }
-
