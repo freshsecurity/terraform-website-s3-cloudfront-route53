@@ -33,7 +33,7 @@ resource "aws_s3_bucket" "website_bucket" {
   policy = data.template_file.bucket_policy.rendered
 
   website {
-    redirect_all_requests_to = "https://${var.target}"
+    redirect_all_requests_to = "${var.target}"
   }
 
   //  logging {
