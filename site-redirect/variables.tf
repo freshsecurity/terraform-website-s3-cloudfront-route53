@@ -16,9 +16,6 @@ variable "domain" {
 variable "target" {
 }
 
-variable "routing_rules" {
-}
-
 variable "duplicate-content-penalty-secret" {
 }
 
@@ -26,6 +23,11 @@ variable "deployer" {
 }
 
 variable "acm-certificate-arn" {
+}
+
+variable "routing_rules" {
+  description = "Rewrite rules used to change page routing"
+  default = ""
 }
 
 variable "tags" {
