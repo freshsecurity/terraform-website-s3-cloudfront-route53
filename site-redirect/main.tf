@@ -33,6 +33,8 @@ resource "aws_s3_bucket" "website_bucket" {
   policy = data.template_file.bucket_policy.rendered
 
   website {
+    index_document = "index.html"
+    error_document = "index.html"
     redirect_all_requests_to = var.target
   }
 
